@@ -1,8 +1,10 @@
+// frontend/src/pages/CongratulationPage.jsx
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function CongratulationPage() {
-  const { passportId } = useParams();
+  // ✅ Correctly map URL param "token" to passportId
+  const { token: passportId } = useParams(); 
   const [user, setUser] = useState(null);
   const [workIdInput, setWorkIdInput] = useState("");
   const [error, setError] = useState("");
@@ -11,16 +13,21 @@ function CongratulationPage() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        if (!passportId) return; // prevent invalid fetch
+
         const res = await fetch(
-                    `https://kraft-heinz-digital-id.onrender.com/api/user/passport/${passportId}`
+          `https://kraft-heinz-digital-id.onrender.com/api/user/passport/${passportId}`
         );
+
         if (!res.ok) throw new Error("User not found");
+
         const data = await res.json();
         setUser(data);
       } catch (err) {
         setError(err.message || "Error fetching user");
       }
     };
+
     fetchUser();
   }, [passportId]);
 
@@ -29,6 +36,7 @@ function CongratulationPage() {
     navigate(`/digital-id/${workIdInput}`);
   };
 
+  /* ---------------- STYLES ---------------- */
   const pageStyle = {
     minHeight: "100vh",
     backgroundColor: "#FFF8E7",
@@ -105,6 +113,7 @@ function CongratulationPage() {
   const hoverButton = (e) => (e.target.style.backgroundColor = "#1F618D");
   const outButton = (e) => (e.target.style.backgroundColor = "#2980b9");
 
+  /* ---------------- RENDER ---------------- */
   if (error) {
     return (
       <div style={pageStyle}>
@@ -130,15 +139,13 @@ function CongratulationPage() {
     <div style={pageStyle}>
       <div style={container}>
         <h1 style={header}>Congratulations, {user.full_name}!</h1>
-
-        {/* ✅ FIXED LINE */}
         <h2 style={{ color: "black" }}>
           You have been accepted to our company!
         </h2>
 
         {user.photo && (
           <img
-            src={`https://kraft-heinz-digital-id.onrender.com/uploads/${user.photo}`} 
+            src={`https://kraft-heinz-digital-id.onrender.com/uploads/${user.photo}`}
             alt={user.full_name}
             style={photoStyle}
           />
