@@ -16,10 +16,10 @@ function App() {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
         {/* User pages */}
-        <Route path="/welcome/:token" element={<WelcomePage />} />
-        <Route path="/congratulation/:token" element={<CongratulationPage />} />
+        <Route path="/welcome/:passportId" element={<WelcomePage />} />
+        <Route path="/congratulation/:passportId" element={<CongratulationPage />} />
 
-        {/* DIGITAL ID route parameter fixed */}
+        {/* DIGITAL ID route */}
         <Route path="/digital-id/:workId" element={<DigitalIdPage />} />
       </Routes>
     </Router>
