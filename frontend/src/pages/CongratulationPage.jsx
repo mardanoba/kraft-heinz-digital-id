@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function CongratulationPage() {
-  // ✅ Correctly map URL param "token" to passportId
-  const { token: passportId } = useParams(); 
+  // ✅ Match the route param name in App.js
+  const { passportId } = useParams();
   const [user, setUser] = useState(null);
   const [workIdInput, setWorkIdInput] = useState("");
   const [error, setError] = useState("");
@@ -13,7 +13,7 @@ function CongratulationPage() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        if (!passportId) return; // prevent invalid fetch
+        if (!passportId) return;
 
         const res = await fetch(
           `https://kraft-heinz-digital-id.onrender.com/api/user/passport/${passportId}`
@@ -166,9 +166,7 @@ function CongratulationPage() {
           onChange={(e) => setWorkIdInput(e.target.value)}
           style={input}
         />
-
         <br />
-
         <button
           onClick={handleCheckDigitalId}
           style={button}
