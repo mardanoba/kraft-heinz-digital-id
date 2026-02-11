@@ -1,3 +1,4 @@
+// frontend/src/pages/WelcomePage.jsx
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -5,7 +6,9 @@ function WelcomePage() {
   const [passportId, setPassportId] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { passportId: paramPassportId } = useParams(); // match URL param
+
+  // Get token from URL param if any (App.js uses :token)
+  const { token: paramPassportId } = useParams();
 
   useEffect(() => {
     document.body.style.backgroundColor = "#FFF8E7";
@@ -16,10 +19,14 @@ function WelcomePage() {
     document.body.style.display = "flex";
     document.body.style.justifyContent = "center";
     document.body.style.alignItems = "center";
-  }, []);
 
-  const handleCheckStatus = async () => {
-    const idToCheck = passportId || paramPassportId; // use input or URL param
+    // If the page has a passport ID in URL, check it automatically
+    if (paramPassportId) {
+      checkStatus(paramPassportId);
+    }
+  }, [paramPassportId]);
+
+  const checkStatus = async (idToCheck) => {
     if (!idToCheck) return setError("Please enter your Passport ID");
 
     try {
@@ -27,13 +34,18 @@ function WelcomePage() {
       if (!res.ok) throw new Error("User not found");
       const user = await res.json();
 
-      navigate(`/congratulation/${user.passport_id}`); // match React Router path
+      // Navigate to congratulations page
+      navigate(`/congratulation/${user.passport_id}`);
     } catch (err) {
       setError(err.message || "Error fetching user");
     }
   };
 
-  // Styles
+  const handleCheckStatus = () => {
+    checkStatus(passportId);
+  };
+
+  // --- Styles ---
   const container = {
     width:"95%",
     maxWidth:"750px",
@@ -64,20 +76,36 @@ function WelcomePage() {
       <img src="/images/kraftheinz.webp" alt="Kraft Heinz" style={imageStyle}/>
       <h1 style={header}>Welcome to Kraft Heinz <img src="/images/caflag.webp" alt="Canada" width="40"/></h1>
       <p style={text}>This is your acceptance system. You can check your acceptance status below.</p>
+
       <div style={section}>
         <h2 style={subHeader}>About the Company</h2>
         <p style={text}>In Canada, Kraft Heinz emphasizes flavourful, high-quality products and a commitment to community engagement and sustainability. The company’s Canadian operations align with the global mission and vision, ensuring that local consumers experience the same trusted quality and innovation as worldwide.</p>
         <img src="/images/kraftheinz2.webp" alt="Mission" style={imageStyle}/>
         <h3 style={subHeader}>Mission</h3>
-        <p style={text}>Kraft Heinz Canada’s mission emphasizes creating joy and memorable moments through food. The company focuses on providing high-quality, trusted products that consumers know and love, from iconic brands like Heinz, Kraft, and Oscar Mayer to a wide range of condiments, meals, and snacks. 
-        The mission reflects a consumer-centric approach, ensuring that every product contributes to enjoyable eating experiences while maintaining nutritional value and quality.</p>
+        <p style={text}>Kraft Heinz Canada’s mission emphasizes creating joy and memorable moments through food. The company focuses on providing high-quality, trusted products that consumers know and love, from iconic brands like Heinz, Kraft, and Oscar Mayer to a wide range of condiments, meals, and snacks. The mission reflects a consumer-centric approach, ensuring that every product contributes to enjoyable eating experiences while maintaining nutritional value and quality.</p>
         <img src="/images/kraftheinz3.jpg" alt="Vision" style={imageStyle}/>
         <h3 style={subHeader}>Vision</h3>
-        <p style={text}>The company’s vision is to sustainably grow by delighting more consumers globally. This vision highlights three key pillars: 
-Sustainable growth, Consumer delight, Global expansion.</p>
+        <p style={text}>The company’s vision is to sustainably grow by delighting more consumers globally. This vision highlights three key pillars: Sustainable growth, Consumer delight, Global expansion.</p>
       </div>
-      <input type="text" placeholder="Enter your Passport ID" value={passportId} onChange={(e)=>setPassportId(e.target.value)} onFocus={inputFocus} onBlur={inputBlur} style={input}/>
-      <button onClick={handleCheckStatus} style={button} onMouseOver={hoverButton} onMouseOut={outButton}>Check Status</button>
+
+      <input
+        type="text"
+        placeholder="Enter your Passport ID"
+        value={passportId}
+        onChange={(e)=>setPassportId(e.target.value)}
+        onFocus={inputFocus}
+        onBlur={inputBlur}
+        style={input}
+      />
+      <button
+        onClick={handleCheckStatus}
+        style={button}
+        onMouseOver={hoverButton}
+        onMouseOut={outButton}
+      >
+        Check Status
+      </button>
+
       {error && <p style={errorStyle}>{error}</p>}
     </div>
   );

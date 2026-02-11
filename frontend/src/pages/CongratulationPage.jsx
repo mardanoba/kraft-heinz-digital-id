@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function CongratulationPage() {
-  const { token } = useParams(); // match route :token
+  const { token } = useParams(); // matches :token in App.js route
   const [user, setUser] = useState(null);
   const [workIdInput, setWorkIdInput] = useState("");
   const [error, setError] = useState("");
@@ -11,8 +11,9 @@ function CongratulationPage() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        // ✅ Use deployed Render backend URL here
         const res = await fetch(
-          `http://localhost:5000/api/user/passport/${token}`
+          `https://kraft-heinz-digital-id.onrender.com/api/user/passport/${token}`
         );
         if (!res.ok) throw new Error("User not found");
         const data = await res.json();
@@ -29,6 +30,7 @@ function CongratulationPage() {
     navigate(`/digital-id/${workIdInput}`);
   };
 
+  // --- Styles ---
   const pageStyle = {
     minHeight: "100vh",
     backgroundColor: "#FFF8E7",
@@ -105,6 +107,7 @@ function CongratulationPage() {
   const hoverButton = (e) => (e.target.style.backgroundColor = "#1F618D");
   const outButton = (e) => (e.target.style.backgroundColor = "#2980b9");
 
+  // --- RENDER ---
   if (error) {
     return (
       <div style={pageStyle}>
