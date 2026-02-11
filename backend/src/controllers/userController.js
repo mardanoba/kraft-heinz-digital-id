@@ -18,7 +18,7 @@ exports.createUser = (req, res) => {
 
     res.json({
       message: "User created successfully",
-      accessLink: `https://kraft-heinz-digital-id.vercel.app/welocme/${passport_number}`
+      accessLink: `https://kraft-heinz-digital-id.vercel.app/welcome/${passport_number}`
     });
   });
 };
