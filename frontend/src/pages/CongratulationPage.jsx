@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function CongratulationPage() {
-  const { token } = useParams(); // passport_id from URL
+  const { passportId } = useParams();
   const [user, setUser] = useState(null);
   const [workIdInput, setWorkIdInput] = useState("");
   const [error, setError] = useState("");
@@ -10,28 +10,19 @@ function CongratulationPage() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (!token) return setError("Invalid token");
-
-      const passportId = token.trim(); // trim whitespace
-      console.log("Fetching user with passportId:", passportId);
-
       try {
         const res = await fetch(
-          `https://kraft-heinz-digital-id.onrender.com/api/user/passport/${passportId}`
+                    `https://kraft-heinz-digital-id.onrender.com/api/user/passport/${passportId}`
         );
-
         if (!res.ok) throw new Error("User not found");
-
         const data = await res.json();
         setUser(data);
       } catch (err) {
-        console.error(err);
         setError(err.message || "Error fetching user");
       }
     };
-
     fetchUser();
-  }, [token]);
+  }, [passportId]);
 
   const handleCheckDigitalId = () => {
     if (!workIdInput) return setError("Please enter Work ID");
@@ -59,39 +50,99 @@ function CongratulationPage() {
     margin: "10px",
   };
 
-  const header = { fontSize: "28px", fontWeight: "700", color: "#2C3E50", marginBottom: "20px" };
-  const photoStyle = { width: "100%", maxWidth: "200px", borderRadius: "10px", margin: "20px 0", border: "2px solid #2C3E50" };
-  const detailStyle = { textAlign: "left", margin: "20px 0", color: "#34495e", fontSize: "16px", lineHeight: "1.6" };
-  const input = { width: "100%", maxWidth: "300px", padding: "12px", fontSize: "16px", borderRadius: "8px", border: "1px solid #2C3E50", outline: "none", marginBottom: "10px" };
-  const button = { padding: "12px 25px", fontSize: "16px", fontWeight: "600", border: "none", borderRadius: "8px", backgroundColor: "#2980b9", color: "#fff", cursor: "pointer", marginTop: "10px" };
-  const errorStyle = { color: "#c0392b", fontWeight: "bold", marginTop: "15px" };
+  const header = {
+    fontSize: "28px",
+    fontWeight: "700",
+    color: "#2C3E50",
+    marginBottom: "20px",
+  };
+
+  const photoStyle = {
+    width: "100%",
+    maxWidth: "200px",
+    borderRadius: "10px",
+    margin: "20px 0",
+    border: "2px solid #2C3E50",
+  };
+
+  const detailStyle = {
+    textAlign: "left",
+    margin: "20px 0",
+    color: "#34495e",
+    fontSize: "16px",
+    lineHeight: "1.6",
+  };
+
+  const input = {
+    width: "100%",
+    maxWidth: "300px",
+    padding: "12px",
+    fontSize: "16px",
+    borderRadius: "8px",
+    border: "1px solid #2C3E50",
+    outline: "none",
+    marginBottom: "10px",
+  };
+
+  const button = {
+    padding: "12px 25px",
+    fontSize: "16px",
+    fontWeight: "600",
+    border: "none",
+    borderRadius: "8px",
+    backgroundColor: "#2980b9",
+    color: "#fff",
+    cursor: "pointer",
+    marginTop: "10px",
+  };
+
+  const errorStyle = {
+    color: "#c0392b",
+    fontWeight: "bold",
+    marginTop: "15px",
+  };
+
   const hoverButton = (e) => (e.target.style.backgroundColor = "#1F618D");
   const outButton = (e) => (e.target.style.backgroundColor = "#2980b9");
 
-  if (error) return (
-    <div style={pageStyle}>
-      <div style={container}>
-        <h2 style={{ ...header, color: "#c0392b" }}>Error</h2>
-        <p style={errorStyle}>{error}</p>
+  if (error) {
+    return (
+      <div style={pageStyle}>
+        <div style={container}>
+          <h2 style={{ ...header, color: "#c0392b" }}>Error</h2>
+          <p style={errorStyle}>{error}</p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 
-  if (!user) return (
-    <div style={pageStyle}>
-      <div style={container}>
-        <p>Loading user details...</p>
+  if (!user) {
+    return (
+      <div style={pageStyle}>
+        <div style={container}>
+          <p>Loading user details...</p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 
   return (
     <div style={pageStyle}>
       <div style={container}>
         <h1 style={header}>Congratulations, {user.full_name}!</h1>
-        <h2 style={{ color: "black" }}>You have been accepted to our company!</h2>
 
-        {user.photo && <img src={`https://kraft-heinz-digital-id.onrender.com/uploads/${user.photo}`} alt={user.full_name} style={photoStyle} />}
+        {/* ✅ FIXED LINE */}
+        <h2 style={{ color: "black" }}>
+          You have been accepted to our company!
+        </h2>
+
+        {user.photo && (
+          <img
+            src={`https://kraft-heinz-digital-id.onrender.com/uploads/${user.photo}`} 
+            alt={user.full_name}
+            style={photoStyle}
+          />
+        )}
 
         <div style={detailStyle}>
           <p><strong>Full Name:</strong> {user.full_name}</p>
@@ -101,9 +152,24 @@ function CongratulationPage() {
           <p><strong>Sex:</strong> {user.sex}</p>
         </div>
 
-        <input type="text" placeholder="Enter your Work ID" value={workIdInput} onChange={(e)=>setWorkIdInput(e.target.value)} style={input} />
+        <input
+          type="text"
+          placeholder="Enter your Work ID"
+          value={workIdInput}
+          onChange={(e) => setWorkIdInput(e.target.value)}
+          style={input}
+        />
+
         <br />
-        <button onClick={handleCheckDigitalId} style={button} onMouseOver={hoverButton} onMouseOut={outButton}>Go</button>
+
+        <button
+          onClick={handleCheckDigitalId}
+          style={button}
+          onMouseOver={hoverButton}
+          onMouseOut={outButton}
+        >
+          Go
+        </button>
       </div>
     </div>
   );
