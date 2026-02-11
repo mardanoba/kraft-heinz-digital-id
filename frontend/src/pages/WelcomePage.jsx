@@ -23,7 +23,7 @@ function WelcomePage() {
     if (!idToCheck) return setError("Please enter your Passport ID");
 
     try {
-      const res = await fetch(`https://kraft-heinz-digital-id.onrender.com`);
+      const res = await fetch(`https://kraft-heinz-digital-id.onrender.com/api/user/passport/${idToCheck}`);
       if (!res.ok) throw new Error("User not found");
       const user = await res.json();
 
