@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const API = import.meta.env.VITE_API_URL;
+
 export default function AdminDashboard() {
   const [formData, setFormData] = useState({
     full_name: "",
@@ -10,7 +12,7 @@ export default function AdminDashboard() {
     photo: null,
   });
 
-  const [link, setLink] = useState(""); // <-- store the link returned by backend
+  const [link, setLink] = useState("");
   const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
@@ -24,14 +26,12 @@ export default function AdminDashboard() {
     e.preventDefault();
 
     const data = new FormData();
-    for (let key in formData) {
-      data.append(key, formData[key]);
-    }
+    for (let key in formData) data.append(key, formData[key]);
 
     const token = localStorage.getItem("adminToken");
 
     try {
-      const res = await fetch("https://kraft-heinz-digital-id.onrender.com/api/admin/add-user", {
+      const res = await fetch(`${API}/api/admin/add-user`, {
         method: "POST",
         headers: { Authorization: "Bearer " + token },
         body: data,
@@ -41,7 +41,7 @@ export default function AdminDashboard() {
 
       if (res.ok) {
         setMessage(result.message);
-        setLink(result.link); // <-- set the link here
+        setLink(result.link);
         setFormData({
           full_name: "",
           passport_id: "",
@@ -87,26 +87,17 @@ export default function AdminDashboard() {
           value={formData.work_type}
           onChange={handleChange}
         /><br /><br />
-
         <select name="sex" value={formData.sex} onChange={handleChange}>
           <option value="">Select Sex</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
-        </select>
-
-        <br /><br />
-
-        <input type="file" name="photo" onChange={handleChange} />
-
-        <br /><br />
-
+        </select><br /><br />
+        <input type="file" name="photo" onChange={handleChange} /><br /><br />
         <button type="submit">Add User</button>
       </form>
 
-      {/* Display message */}
       {message && <p style={{ fontWeight: "bold", marginTop: "10px" }}>{message}</p>}
 
-      {/* Display link if it exists */}
       {link && (
         <p>
           Access Welcome Page:{" "}
