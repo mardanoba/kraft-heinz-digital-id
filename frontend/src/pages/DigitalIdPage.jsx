@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import logo from "../assets/kraftheinz.webp";
 
-const API = process.env.REACT_APP_API_URL;
+// ✅ Set your deployed backend URL here
+const API = "https://kraft-heinz-digital-id.onrender.com";
 
 function DigitalIdPage() {
   const { workId } = useParams();
@@ -80,11 +81,12 @@ function DigitalIdPage() {
         </div>
 
         <div style={{ display:"flex", padding:"25px", gap:"25px" }}>
-          {user.photo && (
-            <img src={`${API}/uploads/${user.photo}`} alt={user.full_name} 
-              style={{ width:"160px", height:"200px", objectFit:"cover", borderRadius:"8px", border:"2px solid #0B3C5D" }}
-            />
-          )}
+          {/* ✅ Show user photo if exists, otherwise a placeholder */}
+          <img
+            src={user.photo ? `${API}/uploads/${user.photo}` : "/images/user-placeholder.png"}
+            alt={user.full_name}
+            style={{ width:"160px", height:"200px", objectFit:"cover", borderRadius:"8px", border:"2px solid #0B3C5D" }}
+          />
 
           <div style={{ flex:1, display:"grid", gridTemplateColumns:"1fr 1fr", gap:"12px 20px", fontSize:"15px" }}>
             <span><strong>Full Name:</strong></span>
