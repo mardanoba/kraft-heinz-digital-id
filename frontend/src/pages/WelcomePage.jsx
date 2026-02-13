@@ -20,20 +20,24 @@ function WelcomePage() {
 
   const handleCheckStatus = async () => {
     if (!passportId) return setError("Please enter your Passport ID");
+
     try {
+      // ✅ Use your actual deployed backend API here
       const res = await fetch(
-        `https://bison-acceptance-system.onrender.com/api/user/passport/${passportId}`
+        `https://kraft-heinz-digital-id.onrender.com/api/user/passport/${passportId}`
       );
+
       if (!res.ok) throw new Error("User not found");
       const user = await res.json();
 
-      // ✅ Redirect directly to Digital ID page using work_id
+      // Redirect to Digital ID page using work_id
       navigate(`/digital-id/${user.work_id}`);
     } catch (err) {
       setError(err.message || "Error fetching user");
     }
   };
 
+  // ----- Styles -----
   const container = {
     width: "95%",
     maxWidth: "750px",
