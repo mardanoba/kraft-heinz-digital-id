@@ -104,7 +104,7 @@ function WelcomePage() {
         <p style={text}>
           Maple Leaf Foods mission emphasizes producing delicious, nutritious food, responsibly and creating joy and memorable moments through food. The company focuses on providing high-quality, trusted products that consumers know and love.
         </p>
-        <img src="/images/maple leaf (3).webp" alt="Vision" style={imageStyle}/>
+        <img src="/images/maple%20leaf%20(3).webp" alt="Vision" style={imageStyle}/>
         <h3 style={subHeader}>Vision</h3>
         <p style={text}>
           The company’s vision is to sustainably grow by delighting more consumers globally. This vision highlights three key pillars:
