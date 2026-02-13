@@ -17,7 +17,7 @@ function WelcomePage() {
 
       const user = await res.json();
 
-      // 🔥 Redirect directly to Digital ID page
+      // ✅ Redirect directly to Digital ID page
       navigate(`/digital-id/${user.work_id}`);
 
     } catch (err) {
@@ -26,7 +26,11 @@ function WelcomePage() {
   };
 
   return (
-    <div style={{ width:"95%", maxWidth:"750px", backgroundColor:"#fff8e7", padding:"30px", borderRadius:"15px", boxShadow:"0 10px 25px rgba(0,0,0,0.2)", textAlign:"center" }}>
+    <div style={{
+      width:"95%", maxWidth:"750px", backgroundColor:"#fff8e7",
+      padding:"30px", borderRadius:"15px", boxShadow:"0 10px 25px rgba(0,0,0,0.2)",
+      textAlign:"center"
+    }}>
       <img src="/images/kraftheinz.webp" alt="Kraft Heinz" style={{ width:"100%", borderRadius:"10px", marginBottom:"20px" }}/>
 
       <h1 style={{ fontSize:"30px", fontWeight:"700", color:"#2C3E50", marginBottom:"20px" }}>
@@ -42,12 +46,20 @@ function WelcomePage() {
         placeholder="Enter your Passport ID"
         value={passportId}
         onChange={(e)=>setPassportId(e.target.value)}
-        style={{ width:"100%", maxWidth:"400px", padding:"12px", fontSize:"16px", borderRadius:"8px", border:"1px solid #2C3E50", marginBottom:"15px" }}
+        style={{
+          width:"100%", maxWidth:"400px", padding:"12px",
+          fontSize:"16px", borderRadius:"8px", border:"1px solid #2C3E50",
+          marginBottom:"15px"
+        }}
       />
 
       <button
         onClick={checkStatus}
-        style={{ padding:"12px 25px", fontSize:"16px", fontWeight:"600", borderRadius:"8px", border:"none", cursor:"pointer", backgroundColor:"#2980b9", color:"#fff" }}
+        style={{
+          padding:"12px 25px", fontSize:"16px", fontWeight:"600",
+          borderRadius:"8px", border:"none", cursor:"pointer",
+          backgroundColor:"#2980b9", color:"#fff"
+        }}
       >
         Check Status
       </button>
