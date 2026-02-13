@@ -1,118 +1,134 @@
-// src/pages/WelcomePage.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-const API = process.env.REACT_APP_API_URL;
 
 function WelcomePage() {
   const [passportId, setPassportId] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const checkStatus = async () => {
+  useEffect(() => {
+    // Set page styles
+    document.body.style.backgroundColor = "#FFF8E7";
+    document.body.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+    document.body.style.margin = 0;
+    document.body.style.padding = 0;
+    document.body.style.minHeight = "100vh";
+    document.body.style.display = "flex";
+    document.body.style.justifyContent = "center";
+    document.body.style.alignItems = "center";
+  }, []);
+
+  const handleCheckStatus = async () => {
     if (!passportId) return setError("Please enter your Passport ID");
-
     try {
-      const res = await fetch(`${API}/api/user/passport/${passportId}`);
+      const res = await fetch(
+        `https://bison-acceptance-system.onrender.com/api/user/passport/${passportId}`
+      );
       if (!res.ok) throw new Error("User not found");
-
       const user = await res.json();
 
-      // ✅ Redirect directly to Digital ID page
+      // ✅ Redirect directly to Digital ID page using work_id
       navigate(`/digital-id/${user.work_id}`);
     } catch (err) {
       setError(err.message || "Error fetching user");
     }
   };
 
+  const container = {
+    width: "95%",
+    maxWidth: "750px",
+    backgroundColor: "#fff8e7",
+    padding: "30px",
+    borderRadius: "15px",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+    textAlign: "center",
+    overflowY: "auto",
+    maxHeight: "90vh",
+    boxSizing: "border-box"
+  };
+  const header = { fontSize: "30px", fontWeight: "700", color: "#2C3E50", marginBottom: "20px" };
+  const text = { fontSize: "16px", color: "#34495e", lineHeight: "1.7", marginBottom: "20px" };
+  const section = { textAlign: "left", margin: "30px 0" };
+  const subHeader = { color: "#2C3E50", marginBottom: "10px", fontWeight: "600" };
+  const input = {
+    width: "100%",
+    maxWidth: "400px",
+    padding: "12px",
+    fontSize: "16px",
+    borderRadius: "8px",
+    border: "1px solid #2C3E50",
+    outline: "none",
+    marginBottom: "15px",
+    transition: "0.3s border,0.3s box-shadow",
+    boxSizing: "border-box"
+  };
+  const inputFocus = (e) => { e.target.style.borderColor = "#1F618D"; e.target.style.boxShadow = "0 0 8px rgba(31,97,141,0.4)"; };
+  const inputBlur = (e) => { e.target.style.borderColor = "#2C3E50"; e.target.style.boxShadow = "none"; };
+  const button = {
+    padding: "12px 25px",
+    fontSize: "16px",
+    fontWeight: "600",
+    borderRadius: "8px",
+    border: "none",
+    cursor: "pointer",
+    backgroundColor: "#2980b9",
+    color: "#fff",
+    transition: "all 0.3s"
+  };
+  const hoverButton = (e) => e.target.style.backgroundColor = "#1F618D";
+  const outButton = (e) => e.target.style.backgroundColor = "#2980b9";
+  const errorStyle = { color: "#c0392b", fontWeight: "bold", marginTop: "12px" };
+  const imageStyle = { width: "100%", borderRadius: "10px", marginBottom: "20px", height: "auto", objectFit: "cover" };
+
   return (
-    <div style={{ fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
-      
-      {/* Header Logo */}
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
-        <img
-          src="/images/kraftheinz.webp"
-          alt="Kraft Heinz"
-          style={{ width: "200px", borderRadius: "10px" }}
-        />
+    <div style={container}>
+      <img src="/images/kraftheinz.webp" alt="Kraft Heinz" style={imageStyle}/>
+      <h1 style={header}>
+        Welcome to Kraft Heinz <img src="/images/caflag.webp" alt="Canada" width="40" />
+      </h1>
+      <p style={text}>
+        This is your acceptance system. You can check your acceptance status below.
+      </p>
+
+      <div style={section}>
+        <h2 style={subHeader}>About the Company</h2>
+        <p style={text}>
+          In Canada, Kraft Heinz emphasizes flavourful, high-quality products and a commitment to community engagement and sustainability. The company’s Canadian operations align with the global mission and vision, ensuring that local consumers experience the same trusted quality and innovation as worldwide.
+        </p>
+        <img src="/images/kraftheinz2.webp" alt="Mission" style={imageStyle}/>
+        <h3 style={subHeader}>Mission</h3>
+        <p style={text}>
+          Kraft Heinz Canada’s mission emphasizes creating joy and memorable moments through food. The company focuses on providing high-quality, trusted products that consumers know and love, from iconic brands like Heinz, Kraft, and Oscar Mayer to a wide range of condiments, meals, and snacks. 
+        </p>
+        <img src="/images/kraftheinz3.jpg" alt="Vision" style={imageStyle}/>
+        <h3 style={subHeader}>Vision</h3>
+        <p style={text}>
+          The company’s vision is to sustainably grow by delighting more consumers globally. This vision highlights three key pillars:
+          <br />- Sustainable growth: Prioritizing long-term, responsible business practices that protect resources and support the planet.
+          <br />- Consumer delight: Ensuring products meet evolving tastes and preferences, fostering loyalty and satisfaction.
+          <br />- Global expansion: Extending the reach of Kraft Heinz brands while maintaining quality and consistency.
+        </p>
       </div>
 
-      {/* Welcome Section */}
-      <section style={{ textAlign: "center", margin: "40px 20px" }}>
-        <h1 style={{ fontSize: "36px", color: "#2C3E50", marginBottom: "15px" }}>
-          Welcome to Kraft Heinz
-        </h1>
-        <p style={{ fontSize: "18px", color: "#34495e", lineHeight: 1.6 }}>
-          We are excited to have you on board! Explore our mission, vision, and values below.
-        </p>
-      </section>
+      <input
+        type="text"
+        placeholder="Enter your Passport ID"
+        value={passportId}
+        onChange={(e) => setPassportId(e.target.value)}
+        onFocus={inputFocus}
+        onBlur={inputBlur}
+        style={input}
+      />
+      <button
+        onClick={handleCheckStatus}
+        style={button}
+        onMouseOver={hoverButton}
+        onMouseOut={outButton}
+      >
+        Check Status
+      </button>
 
-      {/* Mission Section */}
-      <section style={{ display: "flex", flexDirection: "row", gap: "20px", margin: "30px", flexWrap: "wrap", justifyContent: "center" }}>
-        <div style={{ flex: "1 1 300px", textAlign: "center" }}>
-          <img src="/images/mission.webp" alt="Mission" style={{ width: "100%", borderRadius: "10px" }} />
-          <h3 style={{ marginTop: "10px", color: "#0B3C5D" }}>Our Mission</h3>
-          <p>Delivering quality products that make a difference in people’s lives.</p>
-        </div>
-        <div style={{ flex: "1 1 300px", textAlign: "center" }}>
-          <img src="/images/vision.webp" alt="Vision" style={{ width: "100%", borderRadius: "10px" }} />
-          <h3 style={{ marginTop: "10px", color: "#0B3C5D" }}>Our Vision</h3>
-          <p>Be the best food company in the world, for our people and communities.</p>
-        </div>
-      </section>
-
-      {/* Passport ID Check */}
-      <section style={{ textAlign: "center", margin: "50px 20px" }}>
-        <p style={{ fontSize: "16px", color: "#34495e", marginBottom: "15px" }}>
-          Enter your Passport ID to check your acceptance status.
-        </p>
-        <input
-          type="text"
-          placeholder="Enter your Passport ID"
-          value={passportId}
-          onChange={(e) => setPassportId(e.target.value)}
-          style={{
-            width: "250px",
-            padding: "10px",
-            fontSize: "16px",
-            borderRadius: "8px",
-            border: "1px solid #2C3E50",
-            marginRight: "10px",
-          }}
-        />
-        <button
-          onClick={checkStatus}
-          style={{
-            padding: "10px 20px",
-            fontSize: "16px",
-            fontWeight: "600",
-            borderRadius: "8px",
-            border: "none",
-            cursor: "pointer",
-            backgroundColor: "#2980b9",
-            color: "#fff",
-          }}
-        >
-          Check Status
-        </button>
-
-        {error && (
-          <p style={{ color: "#c0392b", fontWeight: "bold", marginTop: "12px" }}>
-            {error}
-          </p>
-        )}
-      </section>
-
-      {/* About Company / Text Section */}
-      <section style={{ margin: "40px 20px", textAlign: "center", lineHeight: 1.6, color: "#2c3e50" }}>
-        <h2>About Kraft Heinz</h2>
-        <p>
-          Kraft Heinz is committed to providing high-quality food products that
-          delight our consumers worldwide. We value innovation, integrity, and
-          sustainability in everything we do.
-        </p>
-      </section>
-
+      {error && <p style={errorStyle}>{error}</p>}
     </div>
   );
 }
