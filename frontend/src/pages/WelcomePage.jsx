@@ -86,9 +86,9 @@ function WelcomePage() {
 
   return (
     <div style={container}>
-      <img src="/images/kraftheinz.webp" alt="Kraft Heinz" style={imageStyle}/>
+      <img src="/images/maple.webp" alt="Maple Leaf" style={imageStyle}/>
       <h1 style={header}>
-        Welcome to Kraft Heinz <img src="/images/caflag.webp" alt="Canada" width="40" />
+        Welcome to Maple Leaf Foods <img src="/images/caflag.webp" alt="Canada" width="40" />
       </h1>
       <p style={text}>
         This is your acceptance system. You can check your acceptance status below.
@@ -97,20 +97,20 @@ function WelcomePage() {
       <div style={section}>
         <h2 style={subHeader}>About the Company</h2>
         <p style={text}>
-          In Canada, Kraft Heinz emphasizes flavourful, high-quality products and a commitment to community engagement and sustainability. The company’s Canadian operations align with the global mission and vision, ensuring that local consumers experience the same trusted quality and innovation as worldwide.
+          In Canada,Maple Leaf Foods emphasizes flavourful, high-quality products and a commitment to community engagement and sustainability. The company’s Canadian operations align with the global mission and vision, ensuring that local consumers experience the same trusted quality and innovation as worldwide.
         </p>
-        <img src="/images/kraftheinz2.webp" alt="Mission" style={imageStyle}/>
+        <img src="/images/mapleleaf1.webp" alt="Mission" style={imageStyle}/>
         <h3 style={subHeader}>Mission</h3>
         <p style={text}>
-          Kraft Heinz Canada’s mission emphasizes creating joy and memorable moments through food. The company focuses on providing high-quality, trusted products that consumers know and love, from iconic brands like Heinz, Kraft, and Oscar Mayer to a wide range of condiments, meals, and snacks. 
+          Maple Leaf Foods mission emphasizes producing delicious, nutritious food, responsibly and creating joy and memorable moments through food. The company focuses on providing high-quality, trusted products that consumers know and love.
         </p>
-        <img src="/images/kraftheinz3.jpg" alt="Vision" style={imageStyle}/>
+        <img src="/images/mapleleaf2.jpg" alt="Vision" style={imageStyle}/>
         <h3 style={subHeader}>Vision</h3>
         <p style={text}>
           The company’s vision is to sustainably grow by delighting more consumers globally. This vision highlights three key pillars:
           <br />- Sustainable growth: Prioritizing long-term, responsible business practices that protect resources and support the planet.
           <br />- Consumer delight: Ensuring products meet evolving tastes and preferences, fostering loyalty and satisfaction.
-          <br />- Global expansion: Extending the reach of Kraft Heinz brands while maintaining quality and consistency.
+          <br />- Global expansion: Extending the reach of Maple Leaf brands while maintaining quality and consistency.
         </p>
       </div>
 

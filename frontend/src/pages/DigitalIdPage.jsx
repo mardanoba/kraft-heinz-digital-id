@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import logo from "../assets/kraftheinz.webp";
+import logo from "../assets/maple.webp";
 
 // ✅ Set your deployed backend URL here
 const API = "https://kraft-heinz-digital-id.onrender.com";
@@ -56,7 +56,7 @@ function DigitalIdPage() {
           🎉 Congratulations {user.full_name}!
         </h1>
         <p style={{ fontSize:"16px", color:"#2c3e50" }}>
-          You have been officially accepted at Kraft Heinz.
+          You have been officially accepted at Maple Leaf Foods.
         </p>
       </div>
 
@@ -70,12 +70,12 @@ function DigitalIdPage() {
           backgroundColor:"#0B3C5D", color:"#ffffff", display:"flex",
           alignItems:"center", padding:"15px 20px", gap:"15px"
         }}>
-          <img src={logo} alt="Kraft Heinz" style={{
+          <img src="/images/maple.webp" alt="Maple Leaf" style={{
             width:"60px", height:"60px", objectFit:"contain",
             backgroundColor:"#fff", borderRadius:"6px", padding:"5px"
           }} />
           <div>
-            <h2 style={{ margin:0 }}>Kraft Heinz</h2>
+            <h2 style={{ margin:0 }}>Maple Leaf Foods</h2>
             <p style={{ margin:0, fontSize:"14px" }}>Official Employee Digital ID</p>
           </div>
         </div>
@@ -107,7 +107,7 @@ function DigitalIdPage() {
         </div>
 
         <div style={{ borderTop:"1px solid #eee", padding:"12px 20px", fontSize:"13px", textAlign:"center", backgroundColor:"#fafafa" }}>
-          This card is the property of Kraft Heinz. If found, return to company office.
+          This card is the property of Maple Leaf Foods. If found, return to company office.
         </div>
       </div>
 
