@@ -70,10 +70,18 @@ function DigitalIdPage() {
           backgroundColor:"#0B3C5D", color:"#ffffff", display:"flex",
           alignItems:"center", padding:"15px 20px", gap:"15px"
         }}>
-          <img src="/images/maple.webp" alt="Maple Leaf" style={{
-            width:"60px", height:"60px", objectFit:"contain",
-            backgroundColor:"#fff", borderRadius:"6px", padding:"5px"
-          }} />
+         <img 
+  src={logo} 
+  alt="Maple Leaf" 
+  style={{
+    width:"60px",
+    height:"60px",
+    objectFit:"contain",
+    backgroundColor:"#fff",
+    borderRadius:"6px",
+    padding:"5px"
+  }}
+/>
           <div>
             <h2 style={{ margin:0 }}>Maple Leaf Foods</h2>
             <p style={{ margin:0, fontSize:"14px" }}>Official Employee Digital ID</p>
