@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const API = import.meta.env.VITE_API_URL;
+const API = process.env.REACT_APP_API_URL;;
 
 export default function AdminDashboard() {
   const [formData, setFormData] = useState({
