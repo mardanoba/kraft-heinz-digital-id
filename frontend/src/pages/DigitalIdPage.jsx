@@ -91,7 +91,7 @@ function DigitalIdPage() {
         <div style={{ display:"flex", padding:"25px", gap:"25px" }}>
           {/* ✅ Show user photo if exists, otherwise a placeholder */}
           <img
-            src={user.photo ? `${API}/uploads/${user.photo}` : "/images/user-placeholder.png"}
+            src={user.photo || "/images/user-placeholder.png"}
             alt={user.full_name}
             style={{ width:"160px", height:"200px", objectFit:"cover", borderRadius:"8px", border:"2px solid #0B3C5D" }}
           />
