@@ -31,7 +31,7 @@ router.post("/login", (req, res) => {
 });
 
 // -----------------
-// Add user
+// Add user (duplicates allowed)
 router.post("/add-user", upload.single("photo"), async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (token !== "kraft-admin-token")
@@ -39,22 +39,23 @@ router.post("/add-user", upload.single("photo"), async (req, res) => {
 
   try {
     const { full_name, passport_id, work_id, work_type, sex } = req.body;
+    if (!full_name || !passport_id || !work_id || !work_type || !sex) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
     const photo = req.file ? req.file.path : null; // Cloudinary URL
 
-    // Insert user
+    // ✅ Insert user without checking for duplicates
     await pool.query(
       `INSERT INTO users (full_name, passport_id, work_id, work_type, sex, photo)
        VALUES (?, ?, ?, ?, ?, ?)`,
       [full_name, passport_id, work_id, work_type, sex, photo]
     );
 
+    // ✅ Generate welcome link WITHOUT passport_id
     const link = `https://kraft-heinz-digital-id.vercel.app/welcome`;
-    res.json({ message: "User added successfully", link });
+    res.status(201).json({ message: "User added successfully", link });
   } catch (err) {
-    // Handle duplicate entry gracefully
-    if (err.code === "ER_DUP_ENTRY") {
-      return res.status(409).json({ message: "User already exists. Use update-photo to change the photo." });
-    }
     console.error(err);
     res.status(500).json({ message: "Server error: " + err.message });
   }
