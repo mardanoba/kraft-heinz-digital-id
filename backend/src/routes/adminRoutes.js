@@ -31,7 +31,7 @@ router.post("/login", (req, res) => {
 });
 
 // -----------------
-// Add user (duplicates allowed)
+// Add user (duplicates allowed, no passport_id in link)
 router.post("/add-user", upload.single("photo"), async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (token !== "kraft-admin-token")
@@ -39,16 +39,22 @@ router.post("/add-user", upload.single("photo"), async (req, res) => {
 
   try {
     const { full_name, passport_id, work_id, work_type, sex } = req.body;
+
     if (!full_name || !passport_id || !work_id || !work_type || !sex) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
     const photo = req.file ? req.file.path : null; // Cloudinary URL
 
-    // ✅ Insert user without checking for duplicates
+    // ✅ Insert user and ignore duplicates by using ON DUPLICATE KEY UPDATE
     await pool.query(
       `INSERT INTO users (full_name, passport_id, work_id, work_type, sex, photo)
-       VALUES (?, ?, ?, ?, ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, ?)
+       ON DUPLICATE KEY UPDATE 
+         full_name = VALUES(full_name),
+         work_type = VALUES(work_type),
+         sex = VALUES(sex),
+         photo = VALUES(photo)`,
       [full_name, passport_id, work_id, work_type, sex, photo]
     );
 
