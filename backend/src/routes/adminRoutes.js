@@ -1,9 +1,21 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
-const pool = require("../config/db"); // MySQL connection
+const pool = require("../config/db");
 
-const upload = multer({ dest: "uploads/" });
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../config/cloudinary");
+
+// Cloudinary storage setup
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "digital-id-users",
+    allowed_formats: ["jpg", "jpeg", "png"],
+  },
+});
+
+const upload = multer({ storage });
 
 // -----------------
 // Admin login (manual)
@@ -26,16 +38,16 @@ router.post("/add-user", upload.single("photo"), async (req, res) => {
 
   try {
     const { full_name, passport_id, work_id, work_type, sex } = req.body;
-    const photo = req.file ? req.file.filename : null;
 
-    // Insert into MySQL
+    const photo = req.file ? req.file.path : null; // IMPORTANT
+
     await pool.query(
       `INSERT INTO users (full_name, passport_id, work_id, work_type, sex, photo)
        VALUES (?, ?, ?, ?, ?, ?)`,
       [full_name, passport_id, work_id, work_type, sex, photo]
     );
 
-    const link = `https://kraft-heinz-digital-id.vercel.app/welcome`;
+    const link = `https://kraft-heinz-digital-id.vercel.app/welcome/${passport_id}`;
     res.json({ message: "User added successfully", link });
   } catch (err) {
     console.error(err);
@@ -43,7 +55,7 @@ router.post("/add-user", upload.single("photo"), async (req, res) => {
   }
 });
 
-// Fetch all users (optional)
+// Fetch all users
 router.get("/all", async (req, res) => {
   const [rows] = await pool.query("SELECT * FROM users");
   res.json(rows);
