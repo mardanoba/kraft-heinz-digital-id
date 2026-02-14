@@ -20,7 +20,7 @@ exports.addUser = (req, res) => {
     }
 
     // Generate link for user
-   const link = `https://kraft-heinz-digital-id.vercel.app/welcome/`;
+   const link = `https://kraft-heinz-digital-id.vercel.app/welcome/${passport_id}`;
     res.status(201).json({ message: "User added successfully", link });
   });
 };
