@@ -87,8 +87,7 @@ router.patch("/update-photo/:passport_id", upload.single("photo"), async (req, r
   }
 });
 
-// -----------------
-// Fetch all users
+
 router.get("/all", async (req, res) => {
   try {
     const [rows] = await pool.query("SELECT * FROM users");
