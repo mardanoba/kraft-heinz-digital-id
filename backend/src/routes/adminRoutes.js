@@ -48,7 +48,7 @@ router.post("/add-user", upload.single("photo"), async (req, res) => {
       [full_name, passport_id, work_id, work_type, sex, photo]
     );
 
-    const link = `https://kraft-heinz-digital-id.vercel.app/welcome;
+    const link = `https://kraft-heinz-digital-id.vercel.app/welcome/;
     res.json({ message: "User added successfully", link });
   } catch (err) {
     // Handle duplicate entry gracefully
